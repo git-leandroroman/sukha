@@ -1,0 +1,56 @@
+#footer .footer-copyright{
+    background-color: #294d93 !important;
+}
+
+#footer .footer-copyright p{
+    color: #959595 !important;
+}
+
+#header .header-top.header-top-default {
+    background-color: #f1ce00 !important;
+}
+
+#header .header-nav-top .nav > li > a, #header .header-nav-top .nav > li > span {
+    color: #555555 !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'alex_brushregular' !important;
+    letter-spacing: 2px !important;
+}
+
+.text-9{
+    font-size: 45px !important;
+}
+
+.text-12{
+    font-size: 28px !important;
+}
+
+p,
+body,
+div,
+span {
+    font-family: 'muliregular' !important;
+    letter-spacing: 1px !important;
+}
+
+section.section.section-overlay-opacity:before{
+    background: rgba(0, 0, 0, 0.9) !important;
+}
+
+.whatsapp-btn {
+    left: 10px !important;
+}
+
+.botaoWhatsapp{
+    position: fixed;
+    bottom: 10px;
+    right: 80px;
+    z-index: 9999;
+}
