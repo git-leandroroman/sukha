@@ -54,3 +54,128 @@ if (function_exists('register_nav_menus')) {
 add_theme_support('post-thumbnails');
 add_theme_support('woocommerce');
 
+function generate_vcard()
+{
+  // Informações do contato
+  $name = get_theme_mod('cartao_nome', 'Seu Nome');
+  $company = get_bloginfo('name');
+  $phone = get_theme_mod('cartao_phone', '');
+  $email = get_theme_mod('cartao_email', '');
+  $website = get_theme_mod('cartao_website', '');
+  $position = get_theme_mod('cartao_cargo', '');
+
+  // Conteúdo do vCard
+  $vcard = "BEGIN:VCARD\r\n";
+  $vcard .= "VERSION:3.0\r\n";
+  $vcard .= "FN:" . $name . "\r\n";
+  $vcard .= "ORG:" . $company . "\r\n";
+  if (!empty($position)) {
+    $vcard .= "TITLE:" . $position . "\r\n";
+  }
+  if (!empty($phone)) {
+    $vcard .= "TEL;TYPE=WORK,VOICE:" . $phone . "\r\n";
+  }
+  if (!empty($email)) {
+    $vcard .= "EMAIL;TYPE=PREF,INTERNET:" . $email . "\r\n";
+  }
+  if (!empty($website)) {
+    $vcard .= "URL:" . $website . "\r\n";
+  }
+  $vcard .= "END:VCARD\r\n";
+
+  // Configurar cabeçalhos para download
+  header("Content-type: text/x-vcard");
+  header("Content-Disposition: attachment; filename=contato.vcf");
+  header("Content-Length: " . strlen($vcard));
+  echo $vcard;
+  exit;
+}
+
+function cartao_digital_customizer($wp_customize)
+{
+  $wp_customize->add_section('cartao_digital_section', array(
+    'title' => 'Cartão Digital',
+    'priority' => 30,
+  ));
+
+  // Nome
+  $wp_customize->add_setting('cartao_nome');
+  $wp_customize->add_control('cartao_nome', array(
+    'label' => 'Nome',
+    'section' => 'cartao_digital_section',
+    'type' => 'text',
+  ));
+
+  // Cargo
+  $wp_customize->add_setting('cartao_cargo');
+  $wp_customize->add_control('cartao_cargo', array(
+    'label' => 'Cargo',
+    'section' => 'cartao_digital_section',
+    'type' => 'text',
+  ));
+
+  // Logo
+  $wp_customize->add_setting('cartao_logo');
+  $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'cartao_logo', array(
+    'label' => 'Logo',
+    'section' => 'cartao_digital_section',
+  )));
+
+  // Foto de Perfil
+  $wp_customize->add_setting('cartao_photo');
+  $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'cartao_photo', array(
+    'label' => 'Foto de Perfil',
+    'section' => 'cartao_digital_section',
+  )));
+
+  // WhatsApp
+  $wp_customize->add_setting('cartao_whatsapp');
+  $wp_customize->add_control('cartao_whatsapp', array(
+    'label' => 'Número do WhatsApp',
+    'section' => 'cartao_digital_section',
+    'type' => 'text',
+  ));
+
+  // Telefone
+  $wp_customize->add_setting('cartao_phone');
+  $wp_customize->add_control('cartao_phone', array(
+    'label' => 'Número de Telefone',
+    'section' => 'cartao_digital_section',
+    'type' => 'text',
+  ));
+
+  // E-mail
+  $wp_customize->add_setting('cartao_email');
+  $wp_customize->add_control('cartao_email', array(
+    'label' => 'E-mail',
+    'section' => 'cartao_digital_section',
+    'type' => 'email',
+  ));
+
+  // Website
+  $wp_customize->add_setting('cartao_website');
+  $wp_customize->add_control('cartao_website', array(
+    'label' => 'Website',
+    'section' => 'cartao_digital_section',
+    'type' => 'url',
+  ));
+
+  // Instagram
+  $wp_customize->add_setting('cartao_instagram');
+  $wp_customize->add_control('cartao_instagram', array(
+    'label' => 'Nome de usuário do Instagram',
+    'section' => 'cartao_digital_section',
+    'type' => 'text',
+  ));
+
+  // Localização
+  $wp_customize->add_setting('cartao_location');
+  $wp_customize->add_control('cartao_location', array(
+    'label' => 'Link da Localização',
+    'section' => 'cartao_digital_section',
+    'type' => 'url',
+  ));
+}
+add_action('customize_register', 'cartao_digital_customizer');
+add_action('wp_ajax_generate_vcard', 'generate_vcard');
+add_action('wp_ajax_nopriv_generate_vcard', 'generate_vcard');
