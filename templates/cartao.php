@@ -120,6 +120,10 @@ get_template_part('header-cartao');
             font-size: 20px;
         }
     }
+
+    h2.profile-name {
+        color: #294d93 !important;
+    }
 </style>
 
 <div class="cartao-digital">
